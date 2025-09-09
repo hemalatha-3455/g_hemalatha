@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G. Hemalatha - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            background-color: #0f172a; /* slate-900 */
+        }
+
+        /* --- Custom Animations --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .fade-in { animation: fadeIn 0.8s ease-out forwards; }
+        .slide-in-left { animation: slideInLeft 0.8s ease-out forwards; }
+        .slide-in-right { animation: slideInRight 0.8s ease-out forwards; }
+        .zoom-in { animation: zoomIn 0.6s ease-out forwards; }
+
+
+        /* --- Section Styling --- */
+        .section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 1.5rem;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .section.active {
+            opacity: 1;
+        }
+
+        /* --- Navigation Styling --- */
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+            padding: 0.5rem 0;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #2dd4bf; /* teal-400 */
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* --- Gradient Text --- */
+        .gradient-text {
+            background: linear-gradient(45deg, #2dd4bf, #a78bfa); /* teal-400 to violet-400 */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- Custom Card Style --- */
+        .custom-card {
+            background-color: rgba(30, 41, 59, 0.5); /* slate-800 with opacity */
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .custom-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
+        }
+        
+         /* --- Mobile Nav --- */
+        #mobile-menu {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        #mobile-menu.hidden {
+            transform: translateX(-100%);
+        }
+        
+        .profile-image-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+        }
+        
+        .profile-image-container::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            padding: 10px; 
+            background: linear-gradient(45deg, #2dd4bf, #a78bfa); 
+            -webkit-mask: 
+                linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-300">
+
+    <!-- Header & Navigation -->
+    <header class="bg-slate-900/80 backdrop-blur-md fixed top-0 left-0 right-0 z-50 shadow-lg">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="#home" class="text-2xl font-bold gradient-text">G. Hemalatha</a>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link text-slate-300 hover:text-teal-400 active">Home</a>
+                    <a href="#skills" class="nav-link text-slate-300 hover:text-teal-400">Skills</a>
+                    <a href="#projects" class="nav-link text-slate-300 hover:text-teal-400">Projects</a>
+                    <a href="#internships" class="nav-link text-slate-300 hover:text-teal-400">Internships</a>
+                    <a href="#education" class="nav-link text-slate-300 hover:text-teal-400">Education</a>
+                    <a href="#contact" class="nav-link text-slate-300 hover:text-teal-400">Contact</a>
+                </nav>
+                 <button id="mobile-menu-button" class="md:hidden text-2xl text-slate-300">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu" class="fixed top-0 left-0 h-full w-64 bg-slate-800/90 backdrop-blur-md z-50 shadow-lg hidden">
+        <div class="p-6">
+             <button id="mobile-menu-close" class="absolute top-4 right-4 text-2xl text-slate-300">
+                <i class="fas fa-times"></i>
+            </button>
+            <nav class="flex flex-col space-y-6 mt-12">
+                <a href="#home" class="mobile-nav-link text-slate-300 hover:text-teal-400 text-lg">Home</a>
+                <a href="#skills" class="mobile-nav-link text-slate-300 hover:text-teal-400 text-lg">Skills</a>
+                <a href="#projects" class="mobile-nav-link text-slate-300 hover:text-teal-400 text-lg">Projects</a>
+                <a href="#internships" class="mobile-nav-link text-slate-300 hover:text-teal-400 text-lg">Internships</a>
+                <a href="#education" class="mobile-nav-link text-slate-300 hover:text-teal-400 text-lg">Education</a>
+                <a href="#contact" class="mobile-nav-link text-slate-300 hover:text-teal-400 text-lg">Contact</a>
+            </nav>
+        </div>
+    </div>
+
+    <main>
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="container mx-auto px-6">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="text-center md:text-left">
+                        <h1 class="text-4xl md:text-6xl font-bold mb-4 fade-in">
+                            <span class="gradient-text">G. Hemalatha</span>
+                        </h1>
+                        <p class="text-lg md:text-2xl text-slate-300 mb-8 slide-in-left">
+                            Electronics & Communication Engineer | Full Stack Developer
+                        </p>
+                        <p class="text-md md:text-lg text-slate-400 max-w-xl mx-auto md:mx-0 mb-10 slide-in-right">
+                            Specializing in Python, Embedded Systems, and IoT. Passionate about creating innovative solutions and responsive web applications.
+                        </p>
+                        <a href="#projects" class="bg-teal-500 text-white font-bold py-3 px-8 rounded-full hover:bg-teal-600 transition duration-300 transform hover:scale-105 inline-block fade-in">
+                            View My Work
+                        </a>
+                    </div>
+                     <div class="flex justify-center md:justify-end zoom-in">
+                        <div class="profile-image-container">
+                             <!-- IMPORTANT: Replace this placeholder with your actual image URL -->
+                            <img src="https://placehold.co/400x400/0f172a/FFF?text=GH" alt="G. Hemalatha" class="rounded-full w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section bg-slate-950">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold text-center mb-12 gradient-text">My Skills</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Programming Languages -->
+                    <div class="custom-card p-6 rounded-lg slide-in-left">
+                        <h3 class="text-2xl font-semibold mb-4 text-slate-100">Programming</h3>
+                        <ul class="space-y-2 text-slate-400">
+                            <li><i class="fas fa-code mr-2 text-teal-400"></i>Python (OOP, Functional, Procedural)</li>
+                            <li><i class="fas fa-code mr-2 text-teal-400"></i>JavaScript</li>
+                            <li><i class="fas fa-code mr-2 text-teal-400"></i>HTML & CSS</li>
+                            <li><i class="fas fa-code mr-2 text-teal-400"></i>SQL</li>
+                            <li><i class="fas fa-code mr-2 text-teal-400"></i>Embedded C, C</li>
+                        </ul>
+                    </div>
+                    <!-- Databases & Tools -->
+                     <div class="custom-card p-6 rounded-lg fade-in">
+                        <h3 class="text-2xl font-semibold mb-4 text-slate-100">Databases & Tools</h3>
+                        <ul class="space-y-2 text-slate-400">
+                            <li><i class="fas fa-database mr-2 text-green-400"></i>MySQL (RDBMS, DQL, DML, DCL, TCL)</li>
+                            <li><i class="fas fa-tools mr-2 text-orange-400"></i>Git, VS Code, Jupyter Notebook</li>
+                            <li><i class="fas fa-microchip mr-2 text-red-400"></i>Arduino IDE</li>
+                        </ul>
+                    </div>
+                    <!-- Concepts & Methodologies -->
+                    <div class="custom-card p-6 rounded-lg slide-in-right">
+                        <h3 class="text-2xl font-semibold mb-4 text-slate-100">Concepts & Methodologies</h3>
+                        <ul class="space-y-2 text-slate-400">
+                            <li><i class="fas fa-project-diagram mr-2 text-violet-400"></i>SDLC, Agile Methodology</li>
+                            <li><i class="fas fa-cogs mr-2 text-yellow-400"></i>Data Structures, OOP</li>
+                            <li><i class="fas fa-network-wired mr-2 text-sky-400"></i>REST APIs, Sensor Interfacing</li>
+                            <li><i class="fas fa-brain mr-2 text-pink-400"></i>Problem Solving, Debugging</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold text-center mb-12 gradient-text">Projects</h2>
+                <div class="space-y-12">
+                    <!-- Project 1 -->
+                    <div class="md:grid md:grid-cols-5 md:gap-8 items-center slide-in-left">
+                        <div class="md:col-span-2 mb-4 md:mb-0">
+                             <div class="bg-slate-800 p-6 rounded-lg text-center">
+                                <i class="fas fa-robot text-6xl text-teal-400"></i>
+                             </div>
+                        </div>
+                        <div class="md:col-span-3">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-100">IoT-Based Industrial Automation</h3>
+                            <p class="text-sm text-slate-500 mb-3">Feb 2025 - Apr 2025</p>
+                            <p class="text-slate-400 mb-4">Designed a Wi-Fi-enabled monitoring system using Arduino UNO, NodeMCU, and sensors. Integrated real-time dashboards for remote machine control and safety compliance.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-teal-400/10 text-teal-300 text-sm font-medium px-2.5 py-0.5 rounded-full">Python</span>
+                                <span class="bg-violet-400/10 text-violet-300 text-sm font-medium px-2.5 py-0.5 rounded-full">IoT</span>
+                                <span class="bg-green-400/10 text-green-300 text-sm font-medium px-2.5 py-0.5 rounded-full">Arduino</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Project 2 -->
+                    <div class="md:grid md:grid-cols-5 md:gap-8 items-center slide-in-right">
+                        <div class="md:col-span-3 md:order-2">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-100">Vehicle Theft Management System</h3>
+                            <p class="text-sm text-slate-500 mb-3">Mar 2023 - Apr 2023</p>
+                            <p class="text-slate-400 mb-4">Developed a GPS and GSM-based alert system. Implemented sensor logic to detect unauthorized access and trigger SMS alerts, enhancing vehicle security.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-red-400/10 text-red-300 text-sm font-medium px-2.5 py-0.5 rounded-full">Embedded C</span>
+                                <span class="bg-yellow-400/10 text-yellow-300 text-sm font-medium px-2.5 py-0.5 rounded-full">GPS</span>
+                                <span class="bg-sky-400/10 text-sky-300 text-sm font-medium px-2.5 py-0.5 rounded-full">GSM</span>
+                            </div>
+                        </div>
+                        <div class="md:col-span-2 md:order-1 mb-4 md:mb-0">
+                             <div class="bg-slate-800 p-6 rounded-lg text-center">
+                                <i class="fas fa-car-burst text-6xl text-red-400"></i>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Internships Section -->
+        <section id="internships" class="section bg-slate-950">
+             <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold text-center mb-12 gradient-text">Internships</h2>
+                <div class="relative border-l-2 border-slate-700 max-w-2xl mx-auto">
+                    <!-- Internship 1 -->
+                    <div class="mb-10 ml-6 slide-in-left">
+                        <span class="absolute flex items-center justify-center w-6 h-6 bg-slate-800 rounded-full -left-3 ring-8 ring-slate-950">
+                            <i class="fas fa-briefcase text-teal-400"></i>
+                        </span>
+                        <h3 class="flex items-center mb-1 text-xl font-semibold text-slate-100">Python Programming Intern <span class="bg-teal-400/10 text-teal-300 text-sm font-medium mr-2 px-2.5 py-0.5 rounded ml-3">Latest</span></h3>
+                        <time class="block mb-2 text-sm font-normal leading-none text-slate-500">Jun 2024 - Jul 2025 at Infosys Springboard</time>
+                        <p class="mb-4 text-base font-normal text-slate-400">Completed structured training in Python, focusing on control flow, functions, OOP, and real-world use cases. Developed Python mini-projects applying modular coding, file handling, and debugging.</p>
+                    </div>
+                     <!-- Internship 2 -->
+                     <div class="mb-10 ml-6 slide-in-right">
+                        <span class="absolute flex items-center justify-center w-6 h-6 bg-slate-800 rounded-full -left-3 ring-8 ring-slate-950">
+                           <i class="fas fa-microchip text-teal-400"></i>
+                        </span>
+                        <h3 class="text-xl font-semibold text-slate-100">Embedded Systems Intern</h3>
+                        <time class="block mb-2 text-sm font-normal leading-none text-slate-500">Apr 2024 - Jun 2024 at EduSkills Foundation</time>
+                        <p class="text-base font-normal text-slate-400">Built embedded C applications for microcontroller-based projects with Arduino. Implemented real-time sensor interfacing.</p>
+                    </div>
+                </div>
+             </div>
+        </section>
+        
+        <!-- Education Section -->
+        <section id="education" class="section">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold text-center mb-12 gradient-text">Education & Certifications</h2>
+                <div class="grid md:grid-cols-2 gap-12">
+                    <!-- Education -->
+                    <div class="slide-in-left">
+                        <h3 class="text-2xl font-semibold mb-6 text-slate-100 text-center md:text-left">My Education</h3>
+                        <div class="space-y-6">
+                            <div class="custom-card p-4 rounded-lg">
+                                <h4 class="font-bold text-slate-200">B.TECH - Electronics & Communication</h4>
+                                <p class="text-slate-400">MOTHER THERESA INSTITUTE OF ENGINEERING AND TECHNOLOGY-(JNTUA)</p>
+                                <p class="text-sm text-slate-500">2025 | 78%</p>
+                            </div>
+                             <div class="custom-card p-4 rounded-lg">
+                                <h4 class="font-bold text-slate-200">AP Board of Intermediate Education</h4>
+                                <p class="text-slate-400">M.P.C | 93%</p>
+                                <p class="text-sm text-slate-500">2021</p>
+                            </div>
+                             <div class="custom-card p-4 rounded-lg">
+                                <h4 class="font-bold text-slate-200">AP Board of Secondary Education</h4>
+                                <p class="text-slate-400">S.S.C | 95%</p>
+                                <p class="text-sm text-slate-500">2019</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Certifications -->
+                    <div class="slide-in-right">
+                        <h3 class="text-2xl font-semibold mb-6 text-slate-100 text-center md:text-left">My Certifications</h3>
+                        <ul class="space-y-4">
+                            <li class="custom-card p-4 rounded-lg flex items-center">
+                               <i class="fas fa-certificate text-2xl text-yellow-400 mr-4"></i>
+                               <div><h4 class="font-semibold text-slate-200">Python Fullstack</h4></div>
+                            </li>
+                             <li class="custom-card p-4 rounded-lg flex items-center">
+                                <i class="fas fa-certificate text-2xl text-yellow-400 mr-4"></i>
+                                <div>
+                                    <h4 class="font-semibold text-slate-200">Infosys: Python Programming</h4>
+                                    <p class="text-sm text-slate-500">Jun 2025 - Jul 2025</p>
+                                </div>
+                             </li>
+                              <li class="custom-card p-4 rounded-lg flex items-center">
+                                 <i class="fas fa-certificate text-2xl text-yellow-400 mr-4"></i>
+                                <div>
+                                    <h4 class="font-semibold text-slate-200">NPTEL: Computer Architecture</h4>
+                                    <p class="text-sm text-slate-500">Jul 2023 - Oct 2023</p>
+                                </div>
+                             </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Contact Section -->
+        <section id="contact" class="section bg-slate-950">
+            <div class="container mx-auto px-6 text-center">
+                 <h2 class="text-4xl font-bold mb-4 gradient-text">Get In Touch</h2>
+                 <p class="text-slate-400 mb-8 max-w-xl mx-auto">I'm currently looking for new opportunities. Feel free to reach out to me via email or connect with me on social media.</p>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-6 fade-in">
+                    <a href="mailto:gowraiahgarihemalatha@gmail.com" class="text-lg hover:text-teal-400 transition duration-300">
+                        <i class="fas fa-envelope mr-2"></i> gowraiahgarihemalatha@gmail.com
+                    </a>
+                    <a href="tel:+916281758145" class="text-lg hover:text-teal-400 transition duration-300">
+                        <i class="fas fa-phone mr-2"></i> +91 6281758145
+                    </a>
+                </div>
+                <div class="flex justify-center gap-8 mt-10 text-3xl">
+                    <a href="https://github.com/hemalatha-3455" target="_blank" class="text-slate-500 hover:text-teal-400 transition duration-300 transform hover:scale-125"><i class="fab fa-github"></i></a>
+                    <a href="https://linkedin.com/in/hemalatha-gowraiahgari-9ba05a322" target="_blank" class="text-slate-500 hover:text-teal-400 transition duration-300 transform hover:scale-125"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenuClose = document.getElementById('mobile-menu-close');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.5 
+            };
+            
+            // --- Mobile Menu Toggle ---
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.remove('hidden');
+            });
+
+            mobileMenuClose.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+            
+            // Close mobile menu when a link is clicked
+             mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+
+            // Function to update active nav link
+            const updateActiveLink = (id) => {
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${id}`) {
+                        link.classList.add('active');
+                    }
+                });
+                 mobileNavLinks.forEach(link => {
+                    link.classList.remove('text-teal-400');
+                    if (link.getAttribute('href') === `#${id}`) {
+                        link.classList.add('text-teal-400');
+                    }
+                });
+            };
+            
+            // Intersection Observer to handle section visibility and animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const sectionId = entry.target.id;
+                        entry.target.classList.add('active');
+                         // Add animations to children
+                        const elementsToAnimate = entry.target.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .zoom-in');
+                        elementsToAnimate.forEach((el, index) => {
+                            el.style.animationDelay = `${index * 0.15}s`;
+                        });
+                        updateActiveLink(sectionId);
+                    } else {
+                         entry.target.classList.remove('active');
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+             // Smooth scroll for all anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
